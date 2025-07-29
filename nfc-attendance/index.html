@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script>
+      window.onload = async function () {
+        const reader = new NDEFReader();
+        await reader.scan();
+        reader.onreading = event => {
+          const serial = event.serialNumber;
+          google.script.run.withSuccessHandler(msg => alert(msg)).markAttendance(serial);
+        };
+      }
+    </script>
+  </head>
+  <body>
+    <h2>صفحة تسجيل الحضور بالكارت</h2>
+    <p>قرّب الكارت علشان نسجلك حضور</p>
+  </body>
+</html>

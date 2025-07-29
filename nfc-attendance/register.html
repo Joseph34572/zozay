@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script>
+      async function readNFC() {
+        const reader = new NDEFReader();
+        await reader.scan();
+        reader.onreading = event => {
+          const serial = event.serialNumber;
+          document.getElementById("nfcId").value = serial;
+        };
+      }
+
+      function submitForm() {
+        const name = document.getElementById("name").value;
+        const nfcId = document.getElementById("nfcId").value;
+        if (!name || !nfcId) return alert("اكتب الاسم واقرأ الكارت الأول");
+
+        google.script.run.withSuccessHandler(msg => alert(msg)).registerUser({ name, nfcId });
+      }
+    </script>
+  </head>
+  <body>
+    <h2>تسجيل كارت جديد</h2>
+    <input type="text" id="name" placeholder="اسم الطفل"><br><br>
+    <input type="text" id="nfcId" placeholder="رقم الكارت" readonly><br><br>
+    <button onclick="readNFC()">قراءة الكارت</button><br><br>
+    <button onclick="submitForm()">تسجيل</button>
+  </body>
+</html>
